@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="ribbon-red-bright" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E50914" />
+      <stop offset="100%" stop-color="#B20710" />
+    </linearGradient>
+    <linearGradient id="ribbon-red-dark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#990000" />
+      <stop offset="100%" stop-color="#730000" />
+    </linearGradient>
+    <filter id="f-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#E50914" flood-opacity="0.4" />
+    </filter>
+  </defs>
+  
+  <!-- Top Horizontal Bar (Folded back / Shadowed) -->
+  <polygon points="32,2 68,2 68,26 32,26" fill="url(#ribbon-red-dark)" />
+  
+  <!-- Middle Horizontal Bar (Folded back / Shadowed) -->
+  <polygon points="32,44 62,44 62,68 32,68" fill="url(#ribbon-red-dark)" />
+  
+  <!-- Vertical Main Ribbon Stem (Front, vibrant Netflix Red, curved bottom) -->
+  <path d="M 2,2 L 34,2 L 34,98 C 24,94 12,94 2,98 Z" fill="url(#ribbon-red-bright)" filter="url(#f-glow)" />
+</svg>

@@ -1,0 +1,1435 @@
+/* ==========================================================================
+   YOU'VE BEEN WATCHING ME — FIONA BAKSHI DIGITAL IDENTITY STREAMING PLATFORM
+   Cinematic Streaming Design System & Interactive UI
+   ========================================================================== */
+
+:root {
+  --bg-dark: #0a0b0e;
+  --bg-card: #14161d;
+  --bg-card-hover: #1c1f29;
+  --bg-modal: #12141a;
+  --bg-glass: rgba(18, 20, 26, 0.85);
+  
+  --netflix-red: #e50914;
+  --netflix-red-hover: #f40612;
+  --netflix-red-glow: rgba(229, 9, 20, 0.4);
+  
+  --text-main: #f5f5f7;
+  --text-muted: #8c92a4;
+  --text-dim: #5a5f70;
+  
+  --accent-cyan: #00f2fe;
+  --accent-gold: #ffb703;
+  --accent-purple: #bd93f9;
+  --accent-green: #00f5d4;
+  
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  
+  --transition-fast: 0.2s cubic-bezier(0.2, 0, 0, 1);
+  --transition-smooth: 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-cinematic: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+  --shadow-hover: 0 20px 40px -15px rgba(0, 0, 0, 0.9), 0 0 25px rgba(229, 9, 20, 0.2);
+  --shadow-modal: 0 25px 60px -15px rgba(0, 0, 0, 0.95);
+}
+
+/* Reset & Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  font-size: 16px;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-display);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(30, 35, 48, 0.3) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(229, 9, 20, 0.05) 0%, transparent 50%);
+  background-attachment: fixed;
+  color: var(--text-main);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Film Grain Overlay */
+.film-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Button & Link Reset */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   1. OPENING SCREEN — NETFLIX LOGIN EXPERIENCE ("Who's watching?")
+   ========================================================================== */
+
+.login-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #151821 0%, #08090c 100%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity var(--transition-cinematic), transform var(--transition-cinematic), visibility var(--transition-cinematic);
+}
+
+.login-screen.hidden {
+  opacity: 0;
+  transform: scale(1.08);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.brand-header {
+  position: absolute;
+  top: 40px;
+  left: 50px;
+}
+
+.brand-netflix-link {
+  display: inline-block;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+
+.brand-netflix-link:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 16px var(--netflix-red-glow));
+}
+
+.brand-f-logo-img {
+  display: block;
+  height: 48px;
+  width: auto;
+  filter: drop-shadow(0 4px 12px rgba(229, 9, 20, 0.4));
+}
+
+.nav-f-logo-img {
+  display: block;
+  height: 38px;
+  width: auto;
+  filter: drop-shadow(0 2px 8px rgba(229, 9, 20, 0.3));
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+
+.nav-netflix-logo:hover .nav-f-logo-img {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 14px var(--netflix-red));
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: fadeIn 1s ease-out;
+}
+
+.login-title {
+  font-size: 3rem;
+  font-weight: 400;
+  color: #ffffff;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.5px;
+}
+
+.profiles-grid {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 3.5rem;
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--transition-smooth);
+}
+
+.profile-avatar-wrap {
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #1e2430 0%, #2b1b36 50%, #e50914 100%);
+  border: 3px solid transparent;
+  transition: all var(--transition-smooth);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.profile-avatar-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.profile-card:hover .profile-avatar-wrap {
+  border-color: #ffffff;
+  transform: scale(1.06);
+  box-shadow: 0 15px 35px rgba(229, 9, 20, 0.4);
+}
+
+.profile-name {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color var(--transition-fast);
+}
+
+.profile-card:hover .profile-name {
+  color: #ffffff;
+}
+
+.login-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  margin-top: 0.25rem;
+}
+
+.manage-btn {
+  padding: 0.75rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all var(--transition-fast);
+  border-radius: 2px;
+}
+
+.manage-btn:hover {
+  border-color: #ffffff;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================================
+   2. MAIN APPLICATION SHELL & TOP NAVIGATION
+   ========================================================================== */
+
+.app-wrapper {
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  min-height: 100vh;
+}
+
+.app-wrapper.active {
+  opacity: 1;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  padding: 0 4%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 500;
+  background: linear-gradient(180deg, rgba(10, 11, 14, 0.9) 0%, rgba(10, 11, 14, 0) 100%);
+  transition: background var(--transition-smooth), backdrop-filter var(--transition-smooth);
+}
+
+.navbar.scrolled {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.nav-netflix-logo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+
+.nav-netflix-logo:hover {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 10px var(--netflix-red-glow));
+}
+
+.nav-profile-name {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.nav-profile-badge:hover .nav-profile-name {
+  color: #ffffff;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+.nav-item {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+  cursor: pointer;
+}
+
+.nav-item:hover, .nav-item.active {
+  color: #ffffff;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.progress-badge-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+}
+
+.progress-ring-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--netflix-red);
+  box-shadow: 0 0 8px var(--netflix-red);
+  animation: pulseDot 2s infinite;
+}
+
+.nav-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+  transition: all var(--transition-fast);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-action-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.nav-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.nav-avatar-img {
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #1e2430 0%, #e50914 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   3. HERO SECTION ("Currently Watching: MYSELF")
+   ========================================================================== */
+
+.hero-section {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 4% 60px;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: radial-gradient(circle at 75% 30%, rgba(229, 9, 20, 0.15) 0%, rgba(10, 11, 14, 0.95) 70%);
+}
+
+.hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.hero-gradient-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(180deg, transparent 0%, var(--bg-dark) 100%);
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  max-width: 650px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--netflix-red);
+  margin-bottom: 0.75rem;
+  font-family: var(--font-mono);
+}
+
+.hero-eyebrow-pill {
+  background: rgba(229, 9, 20, 0.2);
+  border: 1px solid var(--netflix-red);
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -2px;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #ffffff 30%, #a0a6b5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-metadata {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.meta-match {
+  color: #46d369;
+  font-weight: 700;
+}
+
+.meta-badge {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-size: 0.75rem;
+}
+
+.meta-badge-hd {
+  font-weight: 700;
+  border-color: rgba(255,255,255,0.6);
+  color: #ffffff;
+}
+
+.hero-synopsis {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #d1d5db;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #000000;
+  padding: 0.85rem 2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 4px;
+  transition: all var(--transition-fast);
+}
+
+.btn-primary:hover {
+  background: rgba(255, 255, 255, 0.85);
+  transform: scale(1.03);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(109, 109, 110, 0.7);
+  color: #ffffff;
+  padding: 0.85rem 1.8rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border-radius: 4px;
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background: rgba(109, 109, 110, 0.4);
+  transform: scale(1.03);
+}
+
+/* ==========================================================================
+   4. STREAMING ROWS & POSTER CARDS
+   ========================================================================== */
+
+.main-content {
+  position: relative;
+  z-index: 10;
+  padding-bottom: 120px;
+  margin-top: -60px;
+}
+
+.content-row {
+  margin-bottom: 3.5rem;
+  padding: 0 4%;
+  position: relative;
+}
+
+.row-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.row-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #e5e5e5;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.row-indicator {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-weight: 400;
+}
+
+.row-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  position: relative;
+}
+
+/* Sibling Dimmimg effect when any card is hovered */
+.row-cards-container:hover .poster-card:not(:hover) {
+  opacity: 0.55;
+  filter: brightness(0.7) blur(0.5px);
+  transform: scale(0.98);
+}
+
+.poster-card {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: 6px;
+  overflow: visible;
+  cursor: pointer;
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), opacity var(--transition-smooth), filter var(--transition-smooth);
+  box-shadow: var(--shadow-card);
+  aspect-ratio: 16 / 10;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.poster-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  background: #111;
+}
+
+.poster-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.poster-watched-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(70, 211, 105, 0.4);
+  color: #46d369;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 5;
+  backdrop-filter: blur(4px);
+}
+
+.poster-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 5;
+}
+
+.poster-progress-fill {
+  height: 100%;
+  background: var(--netflix-red);
+}
+
+/* ==========================================================================
+   5. HOVER PREVIEW PANEL (Netflix-Style Floating Card)
+   ========================================================================== */
+
+.hover-preview-panel {
+  position: absolute;
+  top: -15%;
+  left: -10%;
+  width: 120%;
+  background: var(--bg-card-hover);
+  border-radius: 8px;
+  box-shadow: var(--shadow-hover);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.92);
+  transition: opacity 0.25s ease-out, transform 0.25s ease-out, visibility 0.25s;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+
+.poster-card:hover .hover-preview-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1.05);
+  pointer-events: auto;
+}
+
+.hover-media-header {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+.hover-body {
+  padding: 1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.hover-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.hover-left-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hover-btn-round {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: all var(--transition-fast);
+}
+
+.hover-btn-round:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: scale(1.1);
+}
+
+.hover-btn-play {
+  background: #ffffff;
+  color: #000000;
+}
+
+.hover-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+}
+
+.hover-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+}
+
+.hover-category-tag {
+  background: rgba(229, 9, 20, 0.15);
+  color: var(--netflix-red);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+.hover-quote-box {
+  background: rgba(0, 0, 0, 0.35);
+  border-left: 3px solid var(--netflix-red);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0 4px 4px 0;
+  margin: 0.25rem 0;
+}
+
+.hover-quote-text {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #e2e8f0;
+  font-style: italic;
+}
+
+.hover-genres {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   6. CINEMATIC DETAIL MODAL (Netflix Expanded View)
+   ========================================================================== */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  overflow-y: auto;
+}
+
+.modal-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.detail-modal {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  background: var(--bg-modal);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow-modal);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transform: translateY(30px) scale(0.97);
+  transition: transform var(--transition-smooth);
+  margin-bottom: 60px;
+}
+
+.modal-backdrop.active .detail-modal {
+  transform: translateY(0) scale(1);
+}
+
+/* Close & Back Button */
+.modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(18, 20, 26, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  z-index: 50;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.modal-close-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: scale(1.1);
+}
+
+.modal-hero {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+.modal-hero-svg-wrap {
+  width: 100%;
+  height: 100%;
+}
+
+.modal-hero-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background: linear-gradient(180deg, transparent 0%, var(--bg-modal) 100%);
+}
+
+.modal-hero-content {
+  position: absolute;
+  bottom: 24px;
+  left: 36px;
+  right: 36px;
+  z-index: 10;
+}
+
+.modal-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+.modal-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-back-browse {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: all var(--transition-fast);
+}
+
+.btn-back-browse:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #ffffff;
+}
+
+.modal-body {
+  padding: 24px 36px 40px;
+}
+
+.modal-identity-statement {
+  background: linear-gradient(135deg, rgba(229, 9, 20, 0.1) 0%, rgba(20, 24, 33, 0.6) 100%);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  border-radius: 8px;
+  padding: 1.5rem 1.8rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.identity-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--netflix-red);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  padding: 4px 10px;
+  border-radius: 3px;
+  margin-bottom: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.identity-quote-text {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+}
+
+.modal-meta-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.synopsis-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #cbd5e1;
+  margin-bottom: 1.5rem;
+}
+
+.creator-note-box {
+  background: rgba(255, 255, 255, 0.04);
+  border-left: 3px solid var(--accent-cyan);
+  padding: 1rem 1.25rem;
+  border-radius: 0 6px 6px 0;
+}
+
+.creator-note-label {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.3rem;
+}
+
+.creator-note-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #e2e8f0;
+}
+
+.modal-sidebar-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  font-size: 0.85rem;
+}
+
+.side-info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.side-info-label {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.side-info-val {
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.info-tag {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Episodes Section */
+.episodes-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 2rem;
+}
+
+.episodes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.episodes-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.episodes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.episode-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background var(--transition-fast);
+}
+
+.episode-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.episode-num {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  min-width: 25px;
+}
+
+.episode-info {
+  flex: 1;
+}
+
+.episode-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.35rem;
+}
+
+.episode-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.episode-length {
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+.episode-desc {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   7. FINAL DISCOVERY SEQUENCE (Reward for Watching All 12)
+   ========================================================================== */
+
+.final-discovery-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #1c0608 0%, #06070a 100%);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s;
+  padding: 2rem;
+  text-align: center;
+}
+
+.final-discovery-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.final-discovery-box {
+  max-width: 750px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.final-badge {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--netflix-red);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease 0.3s;
+}
+
+.final-title-1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease 0.6s;
+  text-shadow: 0 0 30px var(--netflix-red-glow);
+}
+
+.final-poem {
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: #cbd5e1;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease 0.9s;
+}
+
+.final-poem strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.final-status-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(229, 9, 20, 0.4);
+  border-radius: 8px;
+  padding: 1.5rem 2.5rem;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease 1.2s;
+}
+
+.final-status-label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}
+
+.final-status-val {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #ffffff;
+  margin: 0.3rem 0;
+}
+
+.final-status-sub {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--accent-cyan);
+  letter-spacing: 3px;
+}
+
+.final-actions {
+  display: flex;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease 1.5s;
+}
+
+.final-discovery-overlay.active .final-badge,
+.final-discovery-overlay.active .final-title-1,
+.final-discovery-overlay.active .final-poem,
+.final-discovery-overlay.active .final-status-card,
+.final-discovery-overlay.active .final-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   8. ABOUT MODAL & SEARCH OVERLAY
+   ========================================================================== */
+
+.side-drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 1200;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-smooth);
+}
+
+.side-drawer-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.side-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 550px;
+  height: 100%;
+  background: var(--bg-modal);
+  box-shadow: var(--shadow-modal);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2.5rem;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform var(--transition-smooth);
+}
+
+.side-drawer-backdrop.active .side-drawer {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.drawer-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.search-input-box {
+  width: 100%;
+  padding: 0.9rem 1.25rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-family: inherit;
+  margin-bottom: 1.5rem;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.search-input-box:focus {
+  border-color: var(--netflix-red);
+}
+
+.search-results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ==========================================================================
+   9. FOOTER
+   ========================================================================== */
+
+.app-footer {
+  padding: 4rem 4% 3rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer-brand {
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+.footer-quote {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  max-width: 400px;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 1.5rem;
+}
+
+/* ==========================================================================
+   10. ANIMATIONS & KEYFRAMES
+   ========================================================================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+/* ==========================================================================
+   11. RESPONSIVENESS (Desktop, Laptop, Tablet, Mobile)
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .row-cards-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .modal-meta-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  .row-cards-container {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .hero-section {
+    padding-top: 80px;
+    min-height: 70vh;
+  }
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  .modal-hero {
+    aspect-ratio: 4 / 3;
+  }
+  .modal-body {
+    padding: 18px 20px 30px;
+  }
+  .hover-preview-panel {
+    display: none; /* Replace hover preview on touch with direct modal click */
+  }
+}

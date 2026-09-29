@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix — Fiona Bakshi | You've Been Watching Me</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="assets/fiona-f-logo.svg">
+</head>
+<body>
+
+  <!-- Film Grain Overlay -->
+  <div class="film-grain"></div>
+
+  <!-- 1. OPENING SCREEN — NETFLIX LOGIN EXPERIENCE -->
+  <section class="login-screen" id="loginScreen">
+    <div class="brand-header">
+      <a href="#" class="brand-netflix-link" id="loginBrandLogo" title="Who's Watching">
+        <img src="assets/fiona-f-logo.svg" alt="F Ribbon Logo" class="brand-f-logo-img">
+      </a>
+    </div>
+
+    <div class="login-container">
+      <h1 class="login-title">Who's watching?</h1>
+      
+      <div class="profiles-grid">
+        <a href="#" class="profile-card" id="profileFiona">
+          <div class="profile-avatar-wrap">
+            <svg class="profile-avatar-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ff758c" />
+                  <stop offset="50%" stop-color="#ff7eb3" />
+                  <stop offset="100%" stop-color="#7028e4" />
+                </linearGradient>
+              </defs>
+              <rect width="100" height="100" fill="url(#avatarGrad)" />
+              <!-- Abstract feminine aesthetic silhouette & geometric lines -->
+              <circle cx="50" cy="38" r="20" fill="rgba(255,255,255,0.9)" />
+              <path d="M22 88 C22 62, 36 56, 50 56 C64 56, 78 62, 78 88 Z" fill="rgba(255,255,255,0.9)" />
+              <!-- Subtle earring/minimalist ornament -->
+              <circle cx="68" cy="42" r="3.5" fill="#ffd166" />
+            </svg>
+          </div>
+          <span class="profile-name">Fiona Bakshi</span>
+          <span class="login-subtitle">Identity Stream · Industrial Design</span>
+        </a>
+      </div>
+
+      <button class="manage-btn" id="explorePromptBtn">SELECT PROFILE TO ENTER</button>
+    </div>
+  </section>
+
+  <!-- 2. MAIN APPLICATION SHELL -->
+  <div class="app-wrapper" id="appWrapper">
+    
+    <!-- Top Navigation Bar -->
+    <header class="navbar" id="navbar">
+      <div class="nav-left">
+        <!-- F Ribbon Logo (Clicking switches back to profile screen) -->
+        <a href="#" class="nav-netflix-logo" id="netflixNavLogo" title="Back to Who's Watching (Profile Selection)">
+          <img src="assets/fiona-f-logo.svg" alt="F Ribbon Logo" class="nav-f-logo-img">
+        </a>
+        <ul class="nav-links">
+          <li class="nav-item active" id="homeNavBtn">Home</li>
+          <li class="nav-item" id="showsNavBtn">Shows</li>
+          <li class="nav-item" id="myListNavBtn">My List</li>
+          <li class="nav-item" id="aboutToggleBtn">About Fiona</li>
+        </ul>
+      </div>
+
+      <div class="nav-right">
+        <!-- Progress Badge Indicator -->
+        <div class="progress-badge-wrapper" title="Explore all 12 identity shows to unlock the full blueprint">
+          <div class="progress-ring-dot"></div>
+          <span id="progressCount">0 / 12 Explored</span>
+        </div>
+
+        <!-- Audio Sound FX Toggle -->
+        <button class="nav-action-btn" id="soundToggleBtn" title="Toggle Sound FX" aria-label="Toggle Sound">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+        </button>
+
+        <!-- Search Button -->
+        <button class="nav-action-btn" id="searchToggleBtn" title="Search Identity Facets" aria-label="Search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+
+        <!-- User Profile Avatar Pill (Click to switch profile) -->
+        <div class="nav-profile-badge" id="navProfileTrigger" title="Switch Profile">
+          <div class="nav-avatar-img">FB</div>
+          <span class="nav-profile-name">Fiona</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section: "Currently Watching: MYSELF" -->
+    <section class="hero-section" id="heroSection">
+      <div class="hero-bg">
+        <canvas class="hero-canvas" id="heroCanvas"></canvas>
+      </div>
+      <div class="hero-gradient-overlay"></div>
+
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span class="hero-eyebrow-pill">NETFLIX ORIGINAL</span>
+          <span>CURRENTLY WATCHING</span>
+        </div>
+
+        <h1 class="hero-title">MYSELF</h1>
+        
+        <div class="hero-subtitle">
+          <span>Still loading…</span>
+        </div>
+
+        <div class="hero-metadata">
+          <span class="meta-match">99% Match</span>
+          <span class="meta-badge">2026</span>
+          <span class="meta-badge">19+</span>
+          <span class="meta-badge">1 Season</span>
+          <span class="meta-badge meta-badge-hd">4K ULTRA HD</span>
+          <span class="meta-badge">Spatial Audio</span>
+        </div>
+
+        <p class="hero-synopsis">
+          An unfinished story told through 12 personal shows. Step inside the world of a 19-year-old Industrial Design student from Delhi discovering who she is through spaces, making things, languages, and everyday moments.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn-primary" id="heroPlayBtn">
+            <span>▶</span> Play Chapter 1
+          </button>
+          <button class="btn-secondary" id="heroMoreInfoBtn">
+            <span>ⓘ</span> More Info
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Streaming Rows Section (The 12 Shows) -->
+    <main class="main-content" id="rowsContainer">
+      <!-- Rows rendered dynamically via app.js -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-top">
+        <div class="footer-brand" style="display: flex; align-items: center; gap: 10px;">
+          <img src="assets/fiona-f-logo.svg" alt="F Ribbon Logo" style="height: 32px; width: auto;">
+          <span style="font-weight: 800; letter-spacing: 2px; color: #e50914;">FIONA</span>
+        </div>
+        <div class="footer-quote">
+          “Instead of directly telling you who I am, discover me the way you discover a character through the things they watch.”
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Fiona Bakshi · Digital Identity Experience</span>
+        <span>A Netflix-inspired interactive story</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 3. CINEMATIC DETAIL MODAL (Netflix Expanded Overlay) -->
+  <div class="modal-backdrop" id="detailModalBackdrop">
+    <div class="detail-modal" id="detailModal">
+      
+      <!-- Prominent Close / Back Button -->
+      <button class="modal-close-btn" id="modalCloseBtn" title="Back to Browse (ESC)" aria-label="Close">✕</button>
+
+      <div class="modal-hero">
+        <div class="modal-hero-svg-wrap" id="modalHeroWrap"></div>
+        <div class="modal-hero-gradient"></div>
+        
+        <div class="modal-hero-content">
+          <h2 class="modal-title" id="modalTitle">Show Title</h2>
+          <div class="modal-action-bar">
+            <button class="btn-primary" id="modalPlayBtn">
+              <span>▶</span> Play Reflection
+            </button>
+            <button class="btn-back-browse" id="modalBackBtn">
+              <span>←</span> Back to Browse
+            </button>
+            <button class="btn-secondary" id="modalListBtn">
+              <span>＋</span> Add to My List
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        
+        <!-- The Main Identity Statement -->
+        <div class="modal-identity-statement">
+          <div class="identity-badge-pill" id="modalCategoryBadge">FACET: AGE</div>
+          <p class="identity-quote-text" id="modalQuoteText">“Identity text statement”</p>
+        </div>
+
+        <div class="modal-meta-grid">
+          <div class="modal-main-info">
+            <div class="hero-metadata" style="margin-bottom: 1rem;">
+              <span class="meta-match" id="modalMatch">98% Match</span>
+              <span class="meta-badge" id="modalYear">2026</span>
+              <span class="meta-badge" id="modalRating">19+</span>
+              <span class="meta-badge" id="modalDuration">1 Season</span>
+              <span class="meta-badge meta-badge-hd">HD</span>
+            </div>
+            
+            <p class="synopsis-text" id="modalSynopsis">Show Synopsis</p>
+
+            <div class="creator-note-box">
+              <div class="creator-note-label">FIONA'S PERSPECTIVE</div>
+              <p class="creator-note-text" id="modalCreatorNote">Creator commentary</p>
+            </div>
+          </div>
+
+          <div class="modal-sidebar-info">
+            <div class="side-info-group">
+              <span class="side-info-label">Genres:</span>
+              <span class="side-info-val" id="modalGenreList">Coming-of-age, Experimental</span>
+            </div>
+            <div class="side-info-group">
+              <span class="side-info-label">Tags:</span>
+              <div class="tag-cloud" id="modalTagsList">
+                <span class="info-tag">Industrial Design</span>
+              </div>
+            </div>
+            <div class="side-info-group">
+              <span class="side-info-label">Audio & Subtitles:</span>
+              <span class="side-info-val">English, Hindi, German</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Episode breakdown -->
+        <div class="episodes-section">
+          <div class="episodes-header">
+            <h3 class="episodes-title">Episodes & Stories</h3>
+            <span style="font-size: 0.85rem; color: var(--text-dim); font-family: var(--font-mono);">Season 1</span>
+          </div>
+          <div class="episodes-list" id="modalEpisodesList"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. FINAL DISCOVERY OVERLAY (Reward for Exploring all 12 Shows) -->
+  <div class="final-discovery-overlay" id="finalDiscoveryOverlay">
+    <div class="final-discovery-box">
+      <div class="final-badge">YOU'VE WATCHED ALL 12</div>
+      <h2 class="final-title-1">“YOU’VE BEEN WATCHING ME.”</h2>
+      
+      <p class="final-poem">
+        19 years.<br>
+        12 stories.<br>
+        <strong>One unfinished character.</strong>
+      </p>
+
+      <div class="final-status-card">
+        <div class="final-status-label">CURRENTLY WATCHING:</div>
+        <div class="final-status-val">MYSELF</div>
+        <div class="final-status-sub">STILL LOADING...</div>
+      </div>
+
+      <div class="final-actions">
+        <button class="btn-primary" id="finalExploreMapBtn">
+          <span>❖</span> Read About Fiona
+        </button>
+        <button class="btn-secondary" id="finalDismissBtn">
+          <span>✕</span> Back to Netflix
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. SEARCH DRAWER OVERLAY -->
+  <div class="side-drawer-backdrop" id="searchDrawer">
+    <div class="side-drawer">
+      <div class="drawer-header">
+        <h3 class="drawer-title">Search Shows</h3>
+        <button class="modal-close-btn" id="searchCloseBtn" style="position: static; width: 36px; height: 36px;">✕</button>
+      </div>
+      <input type="text" class="search-input-box" id="searchInput" placeholder="Search by topic, Delhi, design, German, Hindi, love...">
+      <div class="search-results-list" id="searchResults"></div>
+    </div>
+  </div>
+
+  <!-- 6. ABOUT CREATOR DRAWER -->
+  <div class="side-drawer-backdrop" id="aboutDrawer">
+    <div class="side-drawer">
+      <div class="drawer-header">
+        <h3 class="drawer-title">About Fiona Bakshi</h3>
+        <button class="modal-close-btn" id="aboutCloseBtn" style="position: static; width: 36px; height: 36px;">✕</button>
+      </div>
+      <div style="line-height: 1.7; color: #cbd5e1; font-size: 0.95rem;">
+        <div style="background: rgba(229,9,20,0.1); border-left: 3px solid var(--netflix-red); padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
+          <strong style="color: #fff;">“You’ve Been Watching Me”</strong><br>
+          An interactive digital identity experience. Instead of a boring questionnaire, you get to know me through the shows on my Netflix account.
+        </div>
+        <p style="margin-bottom: 1rem;">
+          Hi! I’m Fiona Bakshi, a 19-year-old Industrial Design student from Delhi, India.
+        </p>
+        <p style="margin-bottom: 1rem;">
+          Each of the 12 shows represents a real part of my life: my age, my hometown Delhi, my family's Punjabi traditions, my design studies, speaking Hindi and studying German, and how I experience spaces as a young woman.
+        </p>
+        <h4 style="color: #fff; margin: 1.5rem 0 0.5rem; font-size: 1.1rem;">What I Do in Design</h4>
+        <ul style="padding-left: 1.2rem; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+          <li>Sketching and physical blue-foam prototyping</li>
+          <li>TRIZ systematic creative problem-solving</li>
+          <li>Designing everyday products that feel comfortable and easy to use</li>
+          <li>Trilingual communication: Hindi, English, and German</li>
+        </ul>
+        <button class="btn-primary" onclick="document.getElementById('aboutDrawer').classList.remove('active')" style="width: 100%; justify-content: center; margin-top: 1rem;">
+          Back to Browsing Shows
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
